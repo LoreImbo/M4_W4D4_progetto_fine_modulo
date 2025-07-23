@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(h, 0, v);
+        Vector3 direction = new Vector3(h, 0, v).normalized;
 
         if (direction.sqrMagnitude > 0.05f)
         {

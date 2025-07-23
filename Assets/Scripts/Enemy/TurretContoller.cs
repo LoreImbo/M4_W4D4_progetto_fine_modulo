@@ -32,7 +32,11 @@ public class TurretController : MonoBehaviour
 
         Vector3 direction = (target.position - firePoint.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        Instantiate(projectilePrefab, firePoint.position, lookRotation);
+        
+
+        TurretBullet bullet = BulletPool.Instance.GetBullet();
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = lookRotation;
         // Puoi aggiungere effetti sonori o animazioni qui
     }
 

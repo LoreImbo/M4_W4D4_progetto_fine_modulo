@@ -153,6 +153,6 @@ MonoBehaviour:
   firePoint: {fileID: 5083173293296181676}
   projectilePrefab: {fileID: 7183989106539507783, guid: bdcde0ae84b16443799d7e12aa9bc25f,
     type: 3}
-  fireRate: 0.3
+  fireRate: 1
   range: 10
   target: {fileID: 0}

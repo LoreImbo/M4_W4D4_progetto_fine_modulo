@@ -6,9 +6,20 @@ public class TurretBullet : MonoBehaviour
     public float lifetime = 5f;
     public int damage = 10;
 
-    void Start()
+    //void Start()
+    //{
+    //    Destroy(gameObject, lifetime);
+    //}
+
+    void OnEnable()
     {
-        Destroy(gameObject, lifetime);
+        CancelInvoke();
+        Invoke(nameof(DisableSelf), lifetime);
+    }
+    
+    void DisableSelf()
+    {
+        BulletPool.Instance.ReturnBullet(this);
     }
 
     void Update()
@@ -28,17 +39,13 @@ public class TurretBullet : MonoBehaviour
             {
                 lifeController.TakeDamage(damage);
             }
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            BulletPool.Instance.ReturnBullet(this);
         }
-        else if (other.CompareTag("Floor"))
+        else if (other.CompareTag("Floor") || !other.isTrigger)
         {
             // Se colpisce il terreno, distruggi il proiettile
-            Destroy(gameObject);
-        }
-        else if (!other.isTrigger)
-        {
-            // Distruggi il proiettile se colpisce qualsiasi altro oggetto non trigger
-            Destroy(gameObject);
+            BulletPool.Instance.ReturnBullet(this);
         }
     }
 }

@@ -1,3 +1,4 @@
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -30,8 +31,10 @@ public class LifeController : MonoBehaviour
 
             if (_currentHp <= 0)
             {
-                _onDeath.Invoke();
+                _onDeath?.Invoke();
                 Debug.Log($"Il giocatore {gameObject.name} è morto");
+                SceneManager.LoadScene("GameOverMenu"); // Carica la scena del menu di sconfitta
+                Time.timeScale = 0f; // Ferma il gioco
             }
         }
     }
