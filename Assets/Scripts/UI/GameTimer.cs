@@ -3,7 +3,7 @@ using TMPro;
 
 public class GameTimer : MonoBehaviour
 {
-    [SerializeField] private float _timeLimit = 60f;
+    [SerializeField] private float _timeLimit = 300f;
 
     [SerializeField] private TextMeshProUGUI _timerText; 
 

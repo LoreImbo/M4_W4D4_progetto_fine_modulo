@@ -13,7 +13,7 @@ public class KeyManager : MonoBehaviour
     void Start()
     {
         _totalKeys = GameObject.FindGameObjectsWithTag("Key").Length;
-        Debug.Log($"Chiavi totali: {_totalKeys}");
+        Debug.Log($"Chiavi totali da raccogliere per sbloccare la porta: {_totalKeys}");
         _collectedKeys = 0;
     }
 

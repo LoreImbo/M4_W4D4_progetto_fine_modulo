@@ -56,11 +56,9 @@ public class PlayerControllerCameraRelative : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            Debug.Log("Tasto Jump premuto");
             if (_groundCheck.IsGrounded)
             {
                 // Primo salto
-                Debug.Log("Primo salto");
                 _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
                 _animator.Play("JumpShort", 0);
             }

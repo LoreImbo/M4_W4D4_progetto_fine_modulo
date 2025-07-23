@@ -11,7 +11,7 @@ public class CoinManager : MonoBehaviour
     void Start()
     {
         _totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
-        Debug.Log($"Monete totali: {_totalCoins}");
+        Debug.Log($"Monete totali da raccogliere per sbloccare le scale: {_totalCoins}");
         _collectedCoins = 0;
     }
 

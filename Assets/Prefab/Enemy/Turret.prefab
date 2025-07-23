@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5083173293296181676}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2199013394413770245}
   - component: {fileID: 3727118983573959035}
   - component: {fileID: 3661699058197581550}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Turret
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -150,12 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59153ddb90b0c449991d584fe53af03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePoint: {fileID: 5083173293296181676}
-  projectilePrefab: {fileID: 7183989106539507783, guid: bdcde0ae84b16443799d7e12aa9bc25f,
-    type: 3}
-  fireRate: 1
-  range: 10
-  target: {fileID: 0}
+  _firePoint: {fileID: 5083173293296181676}
+  _fireRate: 1
+  _target: {fileID: 0}
 --- !u!1 &9064065114035433907
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +165,7 @@ GameObject:
   - component: {fileID: 3978802053484854815}
   - component: {fileID: 8675375532524508726}
   - component: {fileID: 2799810023122354531}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

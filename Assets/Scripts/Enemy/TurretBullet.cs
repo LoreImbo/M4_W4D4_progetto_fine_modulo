@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TurretBullet : MonoBehaviour
 {
-    [SerializeField] private float _speed = 10f;
+    [SerializeField] private float _speed = 30f;
     [SerializeField] private float _lifetime = 5f;
     [SerializeField] private int _damage = 2;
 
