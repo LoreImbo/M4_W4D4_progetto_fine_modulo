@@ -11,7 +11,7 @@ public class UILifePanel : MonoBehaviour
     public void UpdateGraphics(int currentHp, int maxHP)
     {
         _lifeText.text = "HP " + currentHp + "/" + maxHP;
-        _fillableLifebar.fillAmount = (float)currentHp / maxHP; // devo castarne uno a float altrimenti la divisione verrebbe sempre 0 o 1
+        _fillableLifebar.fillAmount = (float)currentHp / maxHP;
         _fillableLifebar.color = healthGradient.Evaluate(_fillableLifebar.fillAmount);
 
     }

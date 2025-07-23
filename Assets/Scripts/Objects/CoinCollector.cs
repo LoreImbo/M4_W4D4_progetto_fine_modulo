@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinCollector : MonoBehaviour
 {   
-    public CoinManager coinManager;
+    [SerializeField] private CoinManager _coinManager;
 
     void Start()
     {
-        if (coinManager == null)
+        if (_coinManager == null)
         {
-            coinManager = FindObjectOfType<CoinManager>();
-            if (coinManager == null)
+            _coinManager = FindObjectOfType<CoinManager>();
+            if (_coinManager == null)
             {
                 Debug.LogError("CoinManager not found in the scene!");
             }
@@ -22,8 +20,7 @@ public class CoinCollector : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Moneta raccolta!");
-            coinManager.CollectCoin();
-            ////CoinManager.Instance.CollectCoin();
+            _coinManager.CollectCoin();
             Destroy(gameObject);
         }
 }

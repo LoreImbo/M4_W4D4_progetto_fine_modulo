@@ -2,21 +2,16 @@ using UnityEngine;
 
 public class TurretBullet : MonoBehaviour
 {
-    public float speed = 10f;
-    public float lifetime = 5f;
-    public int damage = 10;
-
-    //void Start()
-    //{
-    //    Destroy(gameObject, lifetime);
-    //}
+    [SerializeField] private float _speed = 10f;
+    [SerializeField] private float _lifetime = 5f;
+    [SerializeField] private int _damage = 2;
 
     void OnEnable()
     {
         CancelInvoke();
-        Invoke(nameof(DisableSelf), lifetime);
+        Invoke(nameof(DisableSelf), _lifetime);
     }
-    
+
     void DisableSelf()
     {
         BulletPool.Instance.ReturnBullet(this);
@@ -24,27 +19,24 @@ public class TurretBullet : MonoBehaviour
 
     void Update()
     {
-        //transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        transform.position += transform.forward * speed * Time.deltaTime;
+        transform.position += transform.forward * _speed * Time.deltaTime;
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            // Applica danno qui
-            Debug.Log("Player colpito!");
+            Debug.Log($"Il giocatore {other.name} è stato colpito!");
             LifeController lifeController = other.GetComponent<LifeController>();
             if (lifeController != null)
             {
-                lifeController.TakeDamage(damage);
+                lifeController.TakeDamage(_damage);
             }
-            //Destroy(gameObject);
             BulletPool.Instance.ReturnBullet(this);
         }
         else if (other.CompareTag("Floor") || !other.isTrigger)
         {
-            // Se colpisce il terreno, distruggi il proiettile
+            // Se colpisce il terreno o altro, distruggi il proiettile
             BulletPool.Instance.ReturnBullet(this);
         }
     }

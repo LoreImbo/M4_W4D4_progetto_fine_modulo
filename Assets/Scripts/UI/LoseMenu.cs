@@ -6,11 +6,11 @@ public class GameOverMenu : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f; // Riprende il gioco
-        SceneManager.LoadScene("Level1"); // Sostituisci con il nome esatto della tua scena
+        SceneManager.LoadScene("Level1");
     }
 
     public void GoToHomeMenu()
     {
-        SceneManager.LoadScene("MainMenu"); // Sostituisci con il nome esatto della tua scena
+        SceneManager.LoadScene("MainMenu");
     }
 }

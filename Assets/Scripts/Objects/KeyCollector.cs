@@ -1,17 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyCollector : MonoBehaviour
 {   
-    public KeyManager keyManager;
+    [SerializeField] private KeyManager _keyManager;
 
     void Start()
     {
-        if (keyManager == null)
+        if (_keyManager == null)
         {
-            keyManager = FindObjectOfType<KeyManager>();
-            if (keyManager == null)
+            _keyManager = FindObjectOfType<KeyManager>();
+            if (_keyManager == null)
             {
                 Debug.LogError("KeyManager not found in the scene!");
             }
@@ -22,7 +20,7 @@ public class KeyCollector : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Chiave raccolta!");
-            keyManager.CollectKey();
+            _keyManager.CollectKey();
             Destroy(gameObject);
         }
 }

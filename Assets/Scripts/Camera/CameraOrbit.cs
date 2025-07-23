@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraOrbit : MonoBehaviour
 {
-    [SerializeField] private Transform _target; // Il player
+    [SerializeField] private Transform _target;
     [SerializeField] private Vector2 _mouseSensitivity = new Vector2(3f, 1.5f);
     [SerializeField] private float _distanceFromTarget = 5f;
     [SerializeField] private Vector2 _verticalPitchLimits = new Vector2(-20f, 80f);

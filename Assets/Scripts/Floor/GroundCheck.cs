@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
@@ -7,11 +5,6 @@ public class GroundCheck : MonoBehaviour
     [SerializeField] private float _maxDistance = 0.1f;
     [SerializeField] private LayerMask _whatIsGround;
     public bool IsGrounded { get; private set; }
-
-    void Start()
-    {
-
-    }
 
     void Update()
     {

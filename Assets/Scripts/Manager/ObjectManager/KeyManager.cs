@@ -5,33 +5,27 @@ using UnityEngine.Events;
 
 public class KeyManager : MonoBehaviour
 {
-    //public static CoinManager Instance;
-    public UnityEvent onAllKeysCollected; // Evento da chiamare quando tutte le chiavi sono raccolte
+    [SerializeField] private UnityEvent _onAllKeysCollected; // Evento da chiamare quando tutte le chiavi sono raccolte
 
-    private int totalKeys;     // Impostato automaticamente
-    public int collectedKeys;
-
-    //void Awake()
-    //{
-    //    Instance = this;
-    //}
+    private int _totalKeys;
+    private int _collectedKeys;
 
     void Start()
     {
-        totalKeys = GameObject.FindGameObjectsWithTag("Key").Length;
-        Debug.Log($"Chiavi totali: {totalKeys}");
-        collectedKeys = 0;
+        _totalKeys = GameObject.FindGameObjectsWithTag("Key").Length;
+        Debug.Log($"Chiavi totali: {_totalKeys}");
+        _collectedKeys = 0;
     }
 
     public void CollectKey()
     {
-        collectedKeys++;
-        Debug.Log($"Chiavi raccolte: {collectedKeys}");
-        if (collectedKeys >= totalKeys)
+        _collectedKeys++;
+        Debug.Log($"Chiavi raccolte: {_collectedKeys}");
+        if (_collectedKeys >= _totalKeys)
         {
             Debug.Log("Tutte le chiavi sono state raccolte!");
-            //door.Unlock();
-            onAllKeysCollected?.Invoke(); // Chiama l'evento
+
+            _onAllKeysCollected?.Invoke(); // Chiama l'evento
         }
     }
 }

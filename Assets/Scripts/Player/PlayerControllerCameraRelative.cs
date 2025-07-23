@@ -1,27 +1,24 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerControllerCameraRelative : MonoBehaviour
 {
     [SerializeField] private GroundCheck _groundCheck;
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _initialSpeed = 3;
+    [SerializeField] private Transform _cameraTransform;
     private Animator _animator;
 
     private bool _canDoubleJump = false;
-    public float _speed = 5f;
-    public Transform cameraTransform;  // La Main Camera
+    private float _speed = 5f;
 
-    private Rigidbody rb;
-    private Vector3 moveDirection;
+    private Rigidbody _rb;
+    private Vector3 _moveDirection;
     public float CurrentSpeed { get; private set; }
-    private bool wasJumping = false;
-
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true; // Evita che si ribalti
+        _rb = GetComponent<Rigidbody>();
+        _rb.freezeRotation = true; // Evita che si ribalti
         _animator = GetComponentInChildren<Animator>();
     }
 
@@ -36,21 +33,21 @@ public class PlayerControllerCameraRelative : MonoBehaviour
         if (inputDir.magnitude >= 0.1f)
         {
             // Camera-relative direction
-            Vector3 camForward = cameraTransform.forward;
-            Vector3 camRight = cameraTransform.right;
+            Vector3 camForward = _cameraTransform.forward;
+            Vector3 camRight = _cameraTransform.right;
 
             camForward.y = 0f;
             camRight.y = 0f;
 
-            moveDirection = (camForward * vertical + camRight * horizontal).normalized;
+            _moveDirection = (camForward * vertical + camRight * horizontal).normalized;
 
             // Rotazione verso il movimento
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
         else
         {
-            moveDirection = Vector3.zero;
+            _moveDirection = Vector3.zero;
         }
         if (_groundCheck.IsGrounded)
         {
@@ -64,35 +61,19 @@ public class PlayerControllerCameraRelative : MonoBehaviour
             {
                 // Primo salto
                 Debug.Log("Primo salto");
-                rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-                //_animator.SetTrigger("JumpTrigger");
-                //_animator.SetBool("IsJumping", true);
+                _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
                 _animator.Play("JumpShort", 0);
-                wasJumping = true;
-                //
             }
             else if (_canDoubleJump)
             {
                 // Doppio salto
-                rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-                //_animator.SetTrigger("JumpTrigger");
+                _rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
                 _animator.Play("JumpShort1", 0);
-                //_animator.SetBool("IsJumping", true);
-                wasJumping = true;
                 _canDoubleJump = false;
             }
         }
 
-        _animator.SetBool("IsGrounded", _groundCheck.IsGrounded);
-
-        // Reset salto quando tocchi terra
-        if (_groundCheck.IsGrounded && wasJumping)
-        {
-            wasJumping = false;
-            _animator.SetBool("IsJumping", false);
-        }
-
-        if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.LeftShift)) // Click sinistro del mouse
+        if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.LeftShift))
         {
             _speed = _initialSpeed * 2; // Raddoppia la velocità
         }
@@ -107,9 +88,9 @@ public class PlayerControllerCameraRelative : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (moveDirection != Vector3.zero)
+        if (_moveDirection != Vector3.zero)
         {
-            rb.MovePosition(rb.position + moveDirection * _speed * Time.fixedDeltaTime);
+            _rb.MovePosition(_rb.position + _moveDirection * _speed * Time.fixedDeltaTime);
         }
     }
 }

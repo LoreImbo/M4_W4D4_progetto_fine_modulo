@@ -3,33 +3,27 @@ using UnityEngine.Events;
 
 public class CoinManager : MonoBehaviour
 {
-    //public static CoinManager Instance;
-    public UnityEvent onAllCoinsCollected; // Evento da chiamare quando tutte le monete sono raccolte
+    [SerializeField] private UnityEvent _onAllCoinsCollected; // Evento da chiamare quando tutte le monete sono raccolte
 
-    private int totalCoins;     // Impostato automaticamente
-    public int collectedCoins;
-
-    //void Awake()
-    //{
-    //    Instance = this;
-    //}
+    private int _totalCoins; 
+    private int _collectedCoins;
 
     void Start()
     {
-        totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
-        Debug.Log($"Monete totali: {totalCoins}");
-        collectedCoins = 0;
+        _totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
+        Debug.Log($"Monete totali: {_totalCoins}");
+        _collectedCoins = 0;
     }
 
     public void CollectCoin()
     {
-        collectedCoins++;
-        Debug.Log($"Monete raccolte: {collectedCoins}");
-        if (collectedCoins >= totalCoins)
+        _collectedCoins++;
+        Debug.Log($"Monete raccolte: {_collectedCoins}");
+        if (_collectedCoins >= _totalCoins)
         {
             Debug.Log("Tutte le monete sono state raccolte!");
-            //door.Unlock();
-            onAllCoinsCollected?.Invoke(); // Chiama l'evento
+           
+            _onAllCoinsCollected?.Invoke(); // Chiama l'evento
         }
     }
 }

@@ -1,27 +1,25 @@
 using UnityEngine;
 
-using System;
 public class TurretController : MonoBehaviour
 {
-    public Transform firePoint;          // Dove spawna il proiettile
-    public TurretBullet projectilePrefab;  // Prefab del proiettile
-    public float fireRate = 1f;          // Colpi al secondo
-    public float range = 10f;            // Solo informativo
-    public Transform target;             // Il player
+    [SerializeField] private Transform _firePoint;          
+    //[SerializeField] private TurretBullet _bulletPrefab;  
+    [SerializeField] private float _fireRate = 1f;          
+    [SerializeField] private Transform _target;             
 
-    private bool playerInRange = false;
-    private float nextFireTime = 0f;
+    private bool _playerInRange = false;
+    private float _nextFireTime = 0f;
+    private Vector3 _aimOffset = new Vector3(0, 1f, 0); // offset verticale regolabile
 
     void Update()
     {
-        if (!playerInRange || target == null || !target.gameObject.activeInHierarchy) return;
+        if (!_playerInRange || _target == null || !_target.gameObject.activeInHierarchy) return;
 
-        if (playerInRange && Time.time >= nextFireTime)
+        if (_playerInRange && Time.time >= _nextFireTime)
         {
-            nextFireTime = Time.time + 1f / fireRate;
-            // mira leggermente sopra il target
-            Vector3 aimOffset = new Vector3(0, 1f, 0); // offset verticale regolabile
-            Vector3 dir = (target.position + aimOffset - transform.position).normalized;
+            _nextFireTime = Time.time + 1f / _fireRate;
+            // mira leggermente sopra il transform del target
+            Vector3 dir = (_target.position + _aimOffset - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             Fire();
@@ -30,24 +28,23 @@ public class TurretController : MonoBehaviour
 
     void Fire()
     {
-        if (target == null) return;
+        if (_target == null) return;
 
-        Vector3 aimOffset = new Vector3(0, 1f, 0); // offset verticale regolabile
-        Vector3 direction = (target.position + aimOffset - firePoint.position).normalized;
+        // mira leggermente sopra il transform del target
+        Vector3 direction = (_target.position + _aimOffset - _firePoint.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
 
         TurretBullet bullet = BulletPool.Instance.GetBullet();
-        bullet.transform.position = firePoint.position;
+        bullet.transform.position = _firePoint.position;
         bullet.transform.rotation = lookRotation;
-        // Puoi aggiungere effetti sonori o animazioni qui
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            playerInRange = true;
-            target = other.transform;
+            _playerInRange = true;
+            _target = other.transform;
         }
     }
 
@@ -55,8 +52,8 @@ public class TurretController : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInRange = false;
-            target = null;
+            _playerInRange = false;
+            _target = null;
         }
     }
 }

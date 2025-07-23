@@ -1,35 +1,28 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement; // per ricaricare la scena o passare a "Game Over"
 
 public class GameTimer : MonoBehaviour
 {
-    public float timeLimit = 60f; // in secondi
-    private float currentTime;
+    [SerializeField] private float _timeLimit = 60f;
 
-    public TextMeshProUGUI timerText; // UI Text da assegnare nel Canvas
+    [SerializeField] private TextMeshProUGUI _timerText; 
 
-    public LifeController playerHealth; // riferimento per farlo morire
-
-    //public GameObject gameOverPanel; // riferimento al pannello Game Over da assegnare nel Canvas
+    [SerializeField] private LifeController _playerHp;
+    private float _currentTime;
 
     void Start()
     {
-        currentTime = timeLimit;
+        _currentTime = _timeLimit;
     }
 
     void Update()
     {
-        currentTime -= Time.deltaTime;
-
-        // Aggiorna UI
-        if (timerText != null)
+        _currentTime -= Time.deltaTime;
+        if (_timerText != null)
         {
-            timerText.text = "Timer: " + Mathf.Ceil(currentTime).ToString();
+            _timerText.text = "Timer: " + Mathf.Ceil(_currentTime).ToString();
         }
-
-        // Controlla se è finito il tempo
-        if (currentTime <= 0f)
+        if (_currentTime <= 0f)
         {
             TimeUp();
         }
@@ -39,17 +32,10 @@ public class GameTimer : MonoBehaviour
     {
         Debug.Log("Tempo scaduto!");
 
-        // Metodo 1: far morire il player
-        if (playerHealth != null)
+        if (_playerHp != null)
         {
-            playerHealth.TakeDamage(playerHealth.GetMaxHp()); // Imposta HP a 0
+            _playerHp.TakeDamage(_playerHp.GetMaxHp());
             Time.timeScale = 0f; // Ferma il gioco
         }
-        
-        //Time.timeScale = 0f;
-        //gameOverPanel.SetActive(true);
-
-        // Metodo 2 (alternativa): caricare scena Game Over
-        //SceneManager.LoadScene("GameOver");
     }
 }

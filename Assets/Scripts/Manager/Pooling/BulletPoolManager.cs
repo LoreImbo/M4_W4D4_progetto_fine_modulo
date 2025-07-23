@@ -3,37 +3,36 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    public static BulletPool Instance;
+    
+    [SerializeField] private TurretBullet _bulletPrefab;
+    [SerializeField] private int _poolSize = 20;
+    public static BulletPool Instance { get; private set; }
 
-    public TurretBullet bulletPrefab;
-    public int poolSize = 20;
-
-    private Queue<TurretBullet> bulletPool = new Queue<TurretBullet>();
+    private Queue<TurretBullet> _bulletPool = new Queue<TurretBullet>();
 
     void Awake()
     {
         Instance = this;
 
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < _poolSize; i++)
         {
-            TurretBullet bullet = Instantiate(bulletPrefab);
+            TurretBullet bullet = Instantiate(_bulletPrefab);
             bullet.gameObject.SetActive(false);
-            bulletPool.Enqueue(bullet);
-            //prova
+            _bulletPool.Enqueue(bullet);
         }
     }
 
     public TurretBullet GetBullet()
     {
-        if (bulletPool.Count > 0)
+        if (_bulletPool.Count > 0)
         {
-            TurretBullet bullet = bulletPool.Dequeue();
+            TurretBullet bullet = _bulletPool.Dequeue();
             bullet.gameObject.SetActive(true);
             return bullet;
         }
         else
         {
-            TurretBullet newBullet = Instantiate(bulletPrefab);
+            TurretBullet newBullet = Instantiate(_bulletPrefab);
             return newBullet;
         }
     }
@@ -41,7 +40,7 @@ public class BulletPool : MonoBehaviour
     public void ReturnBullet(TurretBullet bullet)
     {
         bullet.gameObject.SetActive(false);
-        bulletPool.Enqueue(bullet);
+        _bulletPool.Enqueue(bullet);
     }
 }
 
