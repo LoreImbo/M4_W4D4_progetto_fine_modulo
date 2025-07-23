@@ -1,11 +1,12 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMovementRigidbody : MonoBehaviour
+public class PlayerControllerCameraRelative : MonoBehaviour
 {
     [SerializeField] private GroundCheck _groundCheck;
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _initialSpeed = 3;
+    private Animator _animator;
 
     private bool _canDoubleJump = false;
     public float _speed = 5f;
@@ -13,11 +14,15 @@ public class PlayerMovementRigidbody : MonoBehaviour
 
     private Rigidbody rb;
     private Vector3 moveDirection;
+    public float CurrentSpeed { get; private set; }
+    private bool wasJumping = false;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Evita che si ribalti
+        _animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -51,20 +56,40 @@ public class PlayerMovementRigidbody : MonoBehaviour
         {
             _canDoubleJump = true;
         }
-        
+
         if (Input.GetButtonDown("Jump"))
         {
+            Debug.Log("Tasto Jump premuto");
             if (_groundCheck.IsGrounded)
             {
                 // Primo salto
+                Debug.Log("Primo salto");
                 rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+                //_animator.SetTrigger("JumpTrigger");
+                //_animator.SetBool("IsJumping", true);
+                _animator.Play("JumpShort", 0);
+                wasJumping = true;
+                //
             }
             else if (_canDoubleJump)
             {
                 // Doppio salto
                 rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+                //_animator.SetTrigger("JumpTrigger");
+                _animator.Play("JumpShort1", 0);
+                //_animator.SetBool("IsJumping", true);
+                wasJumping = true;
                 _canDoubleJump = false;
             }
+        }
+
+        _animator.SetBool("IsGrounded", _groundCheck.IsGrounded);
+
+        // Reset salto quando tocchi terra
+        if (_groundCheck.IsGrounded && wasJumping)
+        {
+            wasJumping = false;
+            _animator.SetBool("IsJumping", false);
         }
 
         if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.LeftShift)) // Click sinistro del mouse
@@ -75,6 +100,9 @@ public class PlayerMovementRigidbody : MonoBehaviour
         {
             _speed = _initialSpeed;
         }
+        
+        float inputAmount = new Vector2(horizontal, vertical).magnitude;
+        CurrentSpeed = inputAmount * _speed;
     }
 
     void FixedUpdate()

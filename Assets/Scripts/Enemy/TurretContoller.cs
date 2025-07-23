@@ -19,7 +19,9 @@ public class TurretController : MonoBehaviour
         if (playerInRange && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + 1f / fireRate;
-            Vector3 dir = (target.position - transform.position).normalized;
+            // mira leggermente sopra il target
+            Vector3 aimOffset = new Vector3(0, 1f, 0); // offset verticale regolabile
+            Vector3 dir = (target.position + aimOffset - transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
             Fire();
@@ -30,9 +32,9 @@ public class TurretController : MonoBehaviour
     {
         if (target == null) return;
 
-        Vector3 direction = (target.position - firePoint.position).normalized;
+        Vector3 aimOffset = new Vector3(0, 1f, 0); // offset verticale regolabile
+        Vector3 direction = (target.position + aimOffset - firePoint.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        
 
         TurretBullet bullet = BulletPool.Instance.GetBullet();
         bullet.transform.position = firePoint.position;
